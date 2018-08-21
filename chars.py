@@ -1,11 +1,12 @@
 import os
+import random
 import signal
 import time
 
 from alarmexception import AlarmException
 from board import board
 from getch import _getChUnix as getChar
-from globals import NUM_STONE_ROWS
+from globals import NUM_STONE_ROWS, NUM_COLS
 
 
 class base():
@@ -14,9 +15,12 @@ class base():
     pos = []
     direction = ""
 
-class mario(base):
+class mario():
     '''Class For Mario'''
     def __init__(self):
+        self.str = []
+        self.pos = []
+        self.direction = ""
         self.str.append(['*'])
         self.str.append(['|'])
         self.direction = "right"
@@ -28,7 +32,7 @@ class mario(base):
             for j in range(len(self.str[i])):
                 canvas[self.pos[0] + i][begin[0] + self.pos[1] + j] = self.str[i][j]
     
-    def move_mario(self, board, canvas, begin):
+    def move_mario(self, board, canvas, begin, enemy_list):
         """Moves Mario"""
         def alarmhandler(signum, frame):
             ''' input method '''
@@ -75,6 +79,9 @@ class mario(base):
                     canvas[self.pos[0] + 2][begin[0] + self.pos[1] - 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
                     canvas[self.pos[0] + 1][begin[0] + self.pos[1]] = "|"
+                    for e in enemy_list:
+                        e.oscillate()
+                        e.draw(begin, canvas)
                     board.draw(begin)
                     time.sleep(0.05)
                 
@@ -87,6 +94,9 @@ class mario(base):
                     canvas[self.pos[0]][begin[0] + self.pos[1] - 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
                     canvas[self.pos[0] + 1][begin[0] + self.pos[1]] = "|"
+                    for e in enemy_list:
+                        e.oscillate()
+                        e.draw(begin, canvas)
                     board.draw(begin)
                     time.sleep(0.05)
             
@@ -100,6 +110,9 @@ class mario(base):
                     canvas[self.pos[0] + 2][begin[0] + self.pos[1] + 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
                     canvas[self.pos[0] + 1][begin[0] + self.pos[1]] = "|"
+                    for e in enemy_list:
+                        e.oscillate()
+                        e.draw(begin, canvas)
                     board.draw(begin)
                     time.sleep(0.05)
 
@@ -112,7 +125,46 @@ class mario(base):
                     canvas[self.pos[0]][begin[0] + self.pos[1] + 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
                     canvas[self.pos[0] + 1][begin[0] + self.pos[1]] = "|"
+                    for e in enemy_list:
+                        e.oscillate()
+                        e.draw(begin, canvas)
                     board.draw(begin)
                     time.sleep(0.05)
                 
 
+class enemy():
+    count = 0
+    def __init__(self):
+        self.str = []
+        enemy.count += 1
+        self.str.append(['E', str(self.count)])
+        self.direction = "right"
+        self.pos_x_start = random.randint(30, NUM_COLS - 20)
+        self.pos_x = self.pos_x_start
+        self.pos_x_end = self.pos_x_start + 10
+        self.pos_y = NUM_STONE_ROWS[0] - 1
+    def draw(self, begin, canvas):
+        for i in range(len(self.str)):
+            for j in range(len(self.str[i])):
+                try:
+                    if self.direction == "right":
+                        canvas[self.pos_y + i][self.pos_x + j] = self.str[i][j]
+                        canvas[self.pos_y + i][-1 + self.pos_x + j] = ' '
+                    else:
+                        canvas[self.pos_y + i][self.pos_x + j] = self.str[i][j]
+                        canvas[self.pos_y + i][+1 + self.pos_x + j] = ' '
+                except:
+                    pass
+    
+    def oscillate(self):
+        if self.direction == "right":
+            if self.pos_x_end ==  self.pos_x:
+                self.direction = "left"
+            if self.pos_x < self.pos_x_end:
+                self.pos_x += 1
+        
+        if self.direction == "left":
+            if self.pos_x_start == self.pos_x:
+                self.direction = "right"
+            if self.pos_x > self.pos_x_start:
+                self.pos_x -= 1
