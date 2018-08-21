@@ -1,5 +1,5 @@
 import random
-from globals import NUM_STONE_ROWS
+from globals import NUM_STONE_ROWS, NUM_COLS
 
 class cloud():
 
