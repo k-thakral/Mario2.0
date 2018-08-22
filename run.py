@@ -11,7 +11,7 @@ begin = [0]
 cloud_list = []
 pit_list = []
 obstacle_list = []
-base_level = NUM_STONE_ROWS[0]
+base_level = NUM_STONE_ROWS[0] - 1
 enemy_list = []
 enem_flag= False
 SCORE = [0]
@@ -37,7 +37,9 @@ for i in range(len(pit_start_list)):
     p.end = pit_end_list[i]
     pit_list.append(p)
 
-enemy_path_list = [(26, 35), (53, 69), (87, 96), (148, 160), (203, 212)]
+enemy_path_list = [(26, 35), (53, 69), (90, 96), (148, 160), (203, 212)]
+
+obstacle_presence_list = [47, 83, 112, 131, 183, 215] 
 
 for i in range(len(enemy_path_list)):
     e = enemy()
@@ -45,6 +47,11 @@ for i in range(len(enemy_path_list)):
     e.pos_x_end = enemy_path_list[i][1]
     e.pos_x = e.pos_x_start
     enemy_list.append(e)
+
+for i in range(len(obstacle_presence_list)):
+    o = obstacle()
+    o.pos_y = obstacle_presence_list[i]
+    obstacle_list.append(o)
 
 while True:
     os.system("tput reset")
@@ -60,6 +67,10 @@ while True:
     for p in pit_list:
         if p.check_fall(MARIO, begin) is False:
             quit()
+    
+    for o in obstacle_list:
+        print(o.pos_y)
+        o.draw(BOARD.canvas, begin)
     
     for e in enemy_list:
         e.draw(begin, BOARD.canvas)

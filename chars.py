@@ -85,7 +85,6 @@ class mario():
                     os.system("tput reset")
                     begin[0] += 1
                     self.pos[0] -= 1
-                    #self.pos[1] += 1
                     canvas[self.pos[0] + 1][begin[0] + self.pos[1] - 1] = ' '
                     canvas[self.pos[0] + 2][begin[0] + self.pos[1] - 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
@@ -95,13 +94,11 @@ class mario():
                         e.draw(begin, canvas)
                     board.draw(begin)
                     c = user_input()
-                    #time.sleep(0.05)
                 
                 for i in range(5):
                     os.system("tput reset")
                     begin[0] += 1
                     self.pos[0] += 1
-                    #self.pos[1] += 1
                     canvas[self.pos[0] - 1][begin[0] + self.pos[1] - 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1] - 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
@@ -114,8 +111,6 @@ class mario():
                             e.draw(begin, canvas)
                             e.oscillate()
                     board.draw(begin)
-                     
-                    #time.sleep(0.05)
                     c = user_input()
             
             if self.direction == "left":
@@ -123,7 +118,6 @@ class mario():
                     os.system("tput reset")
                     begin[0] -= 1
                     self.pos[0] -= 1
-                    #self.pos[1] += 1
                     canvas[self.pos[0] + 1][begin[0] + self.pos[1] + 1] = ' '
                     canvas[self.pos[0] + 2][begin[0] + self.pos[1] + 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
@@ -137,13 +131,11 @@ class mario():
                             e.oscillate()
                     board.draw(begin)
                     c = user_input()
-                    #time.sleep(0.05)
 
                 for i in range(5):
                     os.system("tput reset")
                     begin[0] -= 1
                     self.pos[0] += 1
-                    #self.pos[1] += 1
                     canvas[self.pos[0] - 1][begin[0] + self.pos[1] + 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1] + 1] = ' '
                     canvas[self.pos[0]][begin[0] + self.pos[1]] = "*"
@@ -157,7 +149,6 @@ class mario():
                             e.oscillate()
                     board.draw(begin)
                     c = user_input()
-                    #time.sleep(0.05)
                 
 
 class enemy():

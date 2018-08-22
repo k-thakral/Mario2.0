@@ -41,15 +41,15 @@ class pit():
 class obstacle():
     def __init__(self):
         self.str = [
-            [' ', '_', '_', '_', '_', '_', ' ',],
-            ['[', ' ', ' ', ' ', ' ', ' ', ']',],
+            [' ', '_', '_', '_', '_', ' ',],
+            ['[', ' ', ' ', ' ', ' ', ']',],
         ]
 
         self.pos_x = NUM_STONE_ROWS[0] - random.randint(0, 3) - 1
 
         for i in range(NUM_STONE_ROWS[0] - self.pos_x - 1):
             self.str.append(
-                [' ', '|', ' ', ' ', ' ', '|', ' ']
+                [' ', '|', ' ', ' ', '|', ' ']
             )
         
         self.pos_y = random.randint(20, NUM_COLS - 20)
