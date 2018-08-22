@@ -13,78 +13,62 @@ pit_list = []
 obstacle_list = []
 base_level = NUM_STONE_ROWS[0]
 enemy_list = []
+enem_flag= False
+SCORE = [0]
+
+for i in range(20):
+    c = cloud()
+
+    if cloud_list == []:
+        cloud_list.append(c)
+        c.draw(BOARD.canvas, begin)
+    else:
+        for clouds in cloud_list:
+            if abs(c.pos_y - clouds.pos_y) > 10:
+                if len(cloud_list) <= 20:
+                    cloud_list.append(c)
+
+pit_start_list = [20, 40, 78, 103, 144, 169, 196, 225]
+pit_end_list = [25, 46, 82, 109, 147, 175, 201, 231]
+
+for i in range(len(pit_start_list)):
+    p = pit()
+    p.start = pit_start_list[i]
+    p.end = pit_end_list[i]
+    pit_list.append(p)
+
+enemy_path_list = [(26, 35), (53, 69), (87, 96), (148, 160), (203, 212)]
+
+for i in range(len(enemy_path_list)):
+    e = enemy()
+    e.pos_x_start = enemy_path_list[i][0]
+    e.pos_x_end = enemy_path_list[i][1]
+    e.pos_x = e.pos_x_start
+    enemy_list.append(e)
 
 while True:
-    os.system('tput reset')
+    os.system("tput reset")
     MARIO.draw(BOARD.canvas, begin)
+    print(SCORE[0])
 
-    x = cloud()
-
-    if cloud_list != []:
-        for clouds in cloud_list:
-            if abs(x.pos_y - clouds.pos_y) > 10:
-                if len(cloud_list) <= 20:
-                    x.draw(BOARD.canvas, begin)
-                    cloud_list.append(x)
-    else:
-        cloud_list.append(x)
-        x.draw(BOARD.canvas, begin)
+    for c in cloud_list:
+        c.draw(BOARD.canvas, begin)
     
-    y = pit()
-
-    if pit_list != []:
-        for p in pit_list:
-            if abs(p.start - y.start) > 10:
-                if len(pit_list) <= 10:
-                    y.draw(BOARD.canvas)
-                    pit_list.append(y)
-    else:
-        pit_list.append(y)
-        y.draw(BOARD.canvas)
+    for p in pit_list:
+        p.draw(BOARD.canvas)
     
     for p in pit_list:
         if p.check_fall(MARIO, begin) is False:
             quit()
     
-    #z = obstacle()
-    #
-    #if obstacle_list != []:
-    #    for o in obstacle_list:
-    #        for p in pit_list:
-    #            if abs(o.pos_x - z.pos_x) > 10 or abs(p.start - z.pos_x) > 10:
-    #                if len(obstacle_list) <= 10:
-    #                    z.draw(BOARD.canvas, begin)
-    #                    obstacle_list.append(z)
-    #else:
-    #    obstacle_list.append(z)
-    #    z.draw(BOARD.canvas, begin)
-    if len(enemy_list) <= 5:
-        for i in range(5):
-            e = enemy()
-            for p in pit_list:
-                if p.start > e.pos_x_start and e.pos_x_end > p.end:
-                    e.pos_x_start = p.start + 1
-                    e.pos_x_end = p.end - 1
-                elif p.start < e.pos_x_start and e.pos_x_end > p.end:
-                    e.pos_x_start = p.end + 1
-                elif p.start > e.pos_x_start and e.pos_x_end < p.end:
-                    e.pos_x_end = p.start - 1
-                elif p.start < e.pos_x_start and e.pos_x_end < p.end:
-                    continue
-                if len(enemy_list) <= 5:
-                    if enemy_list != []:
-                        for z in enemy_list:
-                            if abs(z.pos_x_start - e.pos_x_start) > 30:    
-                                enemy_list.append(e)
-                    else:
-                        enemy_list.append(e)
     for e in enemy_list:
+        e.draw(begin, BOARD.canvas)
         e.oscillate()
-        if e.pos_x < begin[0]:
-            del e
-        else:
-            e.draw(begin, BOARD.canvas)
-        #print(e.pos_x_start, e.pos_x_end)
-
+        if e.pos_x == begin[0] + MARIO.pos[1] and MARIO.pos[1] == e.pos_y:
+            quit()
+        elif e.pos_x == begin[0] + MARIO.pos[1] and MARIO.legs_pos == e.pos_y:
+            enemy_list.remove(e)
+            SCORE[0] += 10
+    
     BOARD.draw(begin)
-    MARIO.move_mario(BOARD, BOARD.canvas, begin, enemy_list)
+    MARIO.move_mario(BOARD, BOARD.canvas, begin, enemy_list, SCORE)
