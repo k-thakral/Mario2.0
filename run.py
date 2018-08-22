@@ -72,7 +72,7 @@ for i in range(NUM_COLS):
     if flag == 0:
         continue
 
-
+os.system("cvlc --play-and-exit ./theme.mp3 &")
 while True:
     os.system("tput reset")
     # print(base_level)
@@ -90,6 +90,7 @@ while True:
 
     for p in pit_list:
         if p.check_fall(MARIO, begin) is False:
+            os.system("fuser -k -TERM ./theme.mp3")
             quit()
 
     for o in obstacle_list:
@@ -100,6 +101,7 @@ while True:
         e.draw(begin, BOARD.canvas)
         e.oscillate()
         if e.pos_x == begin[0] + MARIO.pos[1] and MARIO.pos[1] == e.pos_y:
+            os.system("fuser -k -TERM ./theme.mp3")
             quit()
         elif e.pos_x == begin[0] + MARIO.pos[1] and MARIO.legs_pos == e.pos_y:
             enemy_list.remove(e)

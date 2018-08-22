@@ -13,7 +13,7 @@ class base():
     '''To get Basic ASCII representation of Character and get position'''
 
     def __init__(self):
-        self.str = []
+        self._str = []
         self.pos = []
         self.direction = ""
 
@@ -22,21 +22,21 @@ class mario(base):
     '''Class For Mario'''
 
     def __init__(self):
-        self.str = []
+        self._str = []
         self.pos = []
         self.direction = ""
-        self.str.append(['*'])
-        self.str.append(['|'])
+        self._str.append(['*'])
+        self._str.append(['|'])
         self.direction = "right"
         self.pos.append(NUM_STONE_ROWS[0] - 2)
         self.legs_pos = NUM_STONE_ROWS[0] - 1
         self.pos.append(5)
 
     def draw(self, canvas, begin, base_level):
-        for i in range(len(self.str)):
-            for j in range(len(self.str[i])):
+        for i in range(len(self._str)):
+            for j in range(len(self._str[i])):
                 canvas[base_level + self.pos[0] + i][begin[0] +
-                                                     self.pos[1] + j] = self.str[i][j]
+                                                     self.pos[1] + j] = self._str[i][j]
 
     def move_mario(self, board, canvas, begin, enemy_list, score,
                    base_level, base_level_next, base_level_prev):
@@ -61,6 +61,7 @@ class mario(base):
         c = user_input()
 
         if c == 'q':
+            os.system("fuser -k -TERM ./theme.mp3")
             quit()
 
         if c == 'd':
@@ -93,6 +94,7 @@ class mario(base):
 
         if c == 'w':
             if self.direction == "right":
+                os.system("cvlc --play-and-exit ./jump.mp3 &")
                 for i in range(5 - base_level):
                     os.system("tput reset")
                     begin[0] += 1
@@ -135,6 +137,7 @@ class mario(base):
                     c = user_input()
 
             if self.direction == "left":
+                os.system("cvlc --play-and-exit ./jump.mp3 &")
                 for i in range(5 - base_level):
 
                     os.system("tput reset")
@@ -187,9 +190,9 @@ class enemy(base):
     count = 0
 
     def __init__(self):
-        self.str = []
+        self._str = []
         enemy.count += 1
-        self.str.append(['E', 'E'])
+        self._str.append(['E', 'E'])
         self.direction = "right"
         self.pos_x_start = random.randint(30, NUM_COLS - 20)
         self.pos_x = self.pos_x_start
@@ -197,14 +200,14 @@ class enemy(base):
         self.pos_y = NUM_STONE_ROWS[0] - 1
 
     def draw(self, begin, canvas):
-        for i in range(len(self.str)):
-            for j in range(len(self.str[i])):
+        for i in range(len(self._str)):
+            for j in range(len(self._str[i])):
                 try:
                     if self.direction == "right":
-                        canvas[self.pos_y + i][self.pos_x + j] = self.str[i][j]
+                        canvas[self.pos_y + i][self.pos_x + j] = self._str[i][j]
                         canvas[self.pos_y + i][-2 + self.pos_x + j] = ' '
                     else:
-                        canvas[self.pos_y + i][self.pos_x + j] = self.str[i][j]
+                        canvas[self.pos_y + i][self.pos_x + j] = self._str[i][j]
                         canvas[self.pos_y + i][+2 + self.pos_x + j] = ' '
                 except BaseException:
                     pass
