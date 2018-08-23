@@ -1,7 +1,7 @@
 import os
 from colorama import init, Fore, Back
 from board import board
-from chars import enemy, mario
+from chars import enemy, mario, boss
 from globals import NUM_STONE_ROWS, NUM_COLS
 from scenery import cloud, obstacle, pit, coins
 
@@ -18,6 +18,7 @@ def GameLoop(LIVES = 2, SCORE = [0]):
     coin_list = []
     enemy_list = []
     SCORE = [0]
+    BOSS = boss()
 
     for i in range(20):
         c = cloud()
@@ -81,8 +82,9 @@ def GameLoop(LIVES = 2, SCORE = [0]):
     os.system("cvlc --play-and-exit ./theme.mp3 &")
     while True:
         os.system("tput reset")
-        # print(base_level)
-        #print(base_level[begin[0] + MARIO.pos[1]])
+        BOSS.oscillate()
+        BOSS.draw(BOARD.canvas)
+
         MARIO.draw(BOARD.canvas, begin, base_level[MARIO.pos[1] + begin[0]])
         print("Score : " + str(SCORE[0]) + "\tLives : " + str(LIVES))
 
@@ -125,10 +127,13 @@ def GameLoop(LIVES = 2, SCORE = [0]):
             elif e.pos_x == begin[0] + MARIO.pos[1] and MARIO.legs_pos + 1 == e.pos_y:
                 enemy_list.remove(e)
                 SCORE[0] += 10
+        
+        if BOSS.check_life() == False:
+            Game_End(SCORE)
 
         BOARD.draw(begin)
         MARIO.move_mario(BOARD, BOARD.canvas, begin, enemy_list, SCORE,
-                         base_level[MARIO.pos[1] + begin[0]], base_level[MARIO.pos[1] + begin[0] + 1], base_level[MARIO.pos[1] + begin[0] - 1], coin_list=coin_list)
+                         base_level[MARIO.pos[1] + begin[0]], base_level[MARIO.pos[1] + begin[0] + 1], base_level[MARIO.pos[1] + begin[0] - 1], BOSS,coin_list=coin_list)
 
 def start_screen():
     os.system('tput reset')
@@ -140,6 +145,21 @@ def start_screen():
     if x == 'p' or x == 'P':
         GameLoop()
     else:
-        quit()  
+        quit()
+
+def Game_End(score):
+    os.system('tput reset')
+    print("\t\t\t\t\t\t\t\t" + Fore.RED + Back.BLUE +
+          "Thanks For Playing Mario2.0 !" + Back.BLACK)
+    print("\t\t\t\t\t\t\t\t" + Fore.RED + Back.BLUE +
+          "Your Final Score is " + str(score[0]) + Back.BLACK)
+    print(Fore.GREEN + Back.BLACK + "Press P to play")
+    print(Fore.GREEN + Back.BLACK + "Press Q to quit")
+    
+    x = input()
+    if x == 'p' or 'P':
+        GameLoop()
+    else:
+        quit()
 
 start_screen()

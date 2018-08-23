@@ -39,7 +39,7 @@ class mario(base):
                                                      self.pos[1] + j] = self._str[i][j]
 
     def move_mario(self, board, canvas, begin, enemy_list, score,
-                   base_level, base_level_next, base_level_prev, coin_list=[]):
+                   base_level, base_level_next, base_level_prev, BOSS, coin_list=[]):
         """Moves Mario"""
         def alarmhandler(signum, frame):
             ''' input method '''
@@ -73,9 +73,11 @@ class mario(base):
                 canvas[base_level + self.pos[0] +
                        1][begin[0] + self.pos[1] - 1] = ' '
                 self.direction = "right"
+            BOSS.oscillate()
             for e in enemy_list:
                 e.oscillate()
                 e.draw(begin, canvas)
+            BOSS.draw(canvas)
             board.draw(begin)
 
         if c == 'a':
@@ -90,6 +92,9 @@ class mario(base):
             for e in enemy_list:
                 e.oscillate()
                 e.draw(begin, canvas)
+            BOSS.check(mario=self, begin=begin, score=score)
+            BOSS.oscillate()
+            BOSS.draw(canvas)
             board.draw(begin)
 
         if c == 'w':
@@ -107,6 +112,7 @@ class mario(base):
                            ][begin[0] + self.pos[1]] = "*"
                     canvas[base_level + self.pos[0] +
                            1][begin[0] + self.pos[1]] = "|"
+
                     for e in enemy_list:
                         e.oscillate()
                         e.draw(begin, canvas)
@@ -114,6 +120,9 @@ class mario(base):
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
+                    BOSS.check(mario=self, begin=begin, score=score)
+                    BOSS.oscillate()
+                    BOSS.draw(canvas)
                     board.draw(begin)
                     c = user_input()
 
@@ -141,6 +150,9 @@ class mario(base):
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
+                    BOSS.check(mario=self, begin=begin, score=score)
+                    BOSS.oscillate()
+                    BOSS.draw(canvas)
                     board.draw(begin)
                     c = user_input()
 
@@ -171,6 +183,9 @@ class mario(base):
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
+                    BOSS.check(mario=self, begin=begin, score=score)
+                    BOSS.oscillate()
+                    BOSS.draw(canvas)
                     board.draw(begin)
                     c = user_input()
 
@@ -198,6 +213,9 @@ class mario(base):
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
+                    BOSS.check(mario=self, begin=begin, score=score)
+                    BOSS.oscillate()
+                    BOSS.draw(canvas)
                     board.draw(begin)
                     c = user_input()
 
@@ -240,3 +258,51 @@ class enemy(base):
                 self.direction = "right"
             if self.pos_x > self.pos_x_start:
                 self.pos_x -= 1
+    
+class boss():
+    def __init__(self):
+        self._life = 3
+        self._str = [
+            [' ', ' ', str(self._life), str(self._life), ' ', ' '],
+            [' ', 'B', 'B', 'B', 'B', ' ']
+        ]
+
+        self.pos_x_start = NUM_COLS - 40
+        self.pos_x_end = NUM_COLS - 20
+        self.pos_x = self.pos_x_start
+        self.pos_y = NUM_STONE_ROWS[0] - 2
+        self.direction = "right"
+
+    def draw(self, canvas):
+        for i in range(len(self._str)):
+            for j in range(len(self._str[i])):
+                canvas[self.pos_y + i][self.pos_x + j] = self._str[i][j]
+    
+    def oscillate(self):
+        if self.direction == "right":
+            if self.pos_x_end == self.pos_x:
+                self.direction = "left"
+            if self.pos_x < self.pos_x_end:
+                self.pos_x += 1
+
+        if self.direction == "left":
+            if self.pos_x_start == self.pos_x:
+                self.direction = "right"
+            if self.pos_x > self.pos_x_start:
+                self.pos_x -= 1
+    
+    def check(self, mario, begin, score):
+        if mario.pos[1] + begin[0] in range(self.pos_x, self.pos_x + 5) and mario.pos[0] == self.pos_y - 2:
+            self._life -= 1
+            self._str = [
+                [' ', ' ', str(self._life), str(self._life), ' ', ' '],
+                [' ', 'B', 'B', 'B', 'B', ' ']
+            ]
+            score[0] += 50
+    
+    def check_life(self):
+        if self._life <= 0:
+            return False
+        else:
+            return True
+
