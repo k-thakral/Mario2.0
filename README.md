@@ -30,7 +30,6 @@ ______
 ***Requirements***
 -------------
 * **Python3**
-* **VLC Media Player**
 For Linux:
 ```
 sudo apt-get update
