@@ -1,6 +1,5 @@
 from globals import *
 
-
 class board():
     '''This class is to create the canvas'''
     canvas = [[] for i in range(NUM_ROWS)]
