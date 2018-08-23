@@ -90,7 +90,7 @@ class mario(base):
 
         if c == 'w':
             if self.direction == "right":
-                os.system("cvlc --play-and-exit ./jump.mp3 &")
+                os.system("aplay ./jump.wav &")
                 for i in range(5 - base_level):
                     os.system("tput reset")
                     begin[0] += 1
@@ -148,7 +148,7 @@ class mario(base):
                     c = user_input()
 
             if self.direction == "left":
-                os.system("cvlc --play-and-exit ./jump.mp3 &")
+                os.system("aplay ./jump.wav &")
                 for i in range(5 - base_level):
 
                     os.system("tput reset")

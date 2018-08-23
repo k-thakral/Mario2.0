@@ -78,7 +78,7 @@ def GameLoop(LIVES=2, SCORE=[0]):
         if flag == 0:
             continue
 
-    os.system("cvlc --play-and-exit ./theme.mp3 &")
+    os.system("aplay ./theme.wav &")
     while True:
         os.system("tput reset")
         BOSS.oscillate()
@@ -103,7 +103,7 @@ def GameLoop(LIVES=2, SCORE=[0]):
 
         for p in pit_list:
             if p.check_fall(MARIO, begin) is False:
-                os.system("fuser -k -TERM ./theme.mp3")
+                os.system("fuser -k -TERM ./theme.wav")
                 start_screen()
 
         for o in obstacle_list:
@@ -119,7 +119,7 @@ def GameLoop(LIVES=2, SCORE=[0]):
                 SCORE[0] += 10
                 enemy_list.remove(e)
                 if LIVES == 0:
-                    os.system("fuser -k -TERM ./theme.mp3")
+                    os.system("fuser -k -TERM ./theme.wav")
                     start_screen()
                 else:
                     break
@@ -129,7 +129,7 @@ def GameLoop(LIVES=2, SCORE=[0]):
                 SCORE[0] += 10
 
         if BOSS.check_life() == False:
-            os.system("fuser -k -TERM ./theme.mp3")
+            os.system("fuser -k -TERM ./theme.wav")
             Game_End(SCORE)
 
         BOARD.draw(begin)
