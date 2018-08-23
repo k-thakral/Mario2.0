@@ -39,7 +39,7 @@ class mario(base):
                                                      self.pos[1] + j] = self._str[i][j]
 
     def move_mario(self, board, canvas, begin, enemy_list, score,
-                   base_level, base_level_next, base_level_prev):
+                   base_level, base_level_next, base_level_prev, coin_list=[]):
         """Moves Mario"""
         def alarmhandler(signum, frame):
             ''' input method '''
@@ -110,6 +110,10 @@ class mario(base):
                     for e in enemy_list:
                         e.oscillate()
                         e.draw(begin, canvas)
+                    for c in coin_list:
+                        if c.check(mario=self, begin=begin):
+                            coin_list.remove(c)
+                            score[0] += 1
                     board.draw(begin)
                     c = user_input()
 
@@ -133,6 +137,10 @@ class mario(base):
                         else:
                             e.draw(begin, canvas)
                             e.oscillate()
+                    for c in coin_list:
+                        if c.check(mario=self, begin=begin):
+                            coin_list.remove(c)
+                            score[0] += 1
                     board.draw(begin)
                     c = user_input()
 
@@ -159,6 +167,10 @@ class mario(base):
                         else:
                             e.draw(begin, canvas)
                             e.oscillate()
+                    for c in coin_list:
+                        if c.check(mario=self, begin=begin):
+                            coin_list.remove(c)
+                            score[0] += 1
                     board.draw(begin)
                     c = user_input()
 
@@ -182,6 +194,10 @@ class mario(base):
                         else:
                             e.draw(begin, canvas)
                             e.oscillate()
+                    for c in coin_list:
+                        if c.check(mario=self, begin=begin):
+                            coin_list.remove(c)
+                            score[0] += 1
                     board.draw(begin)
                     c = user_input()
 

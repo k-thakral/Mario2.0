@@ -12,7 +12,8 @@ __________
 ***Rules***
 --------------
 * The player controls Mario. Press A to move backward, D to move forward and W to jump.
-* Colliding with an enemy or Falling into a pit will kill you immediately.
+* Colliding with an enemy will decrease your lives by 1. You have only 2 lives. Be Wise
+* Falling into a pit will result in immediate demise.
 * Jumping on an enemy will kill the enemy and improve your high score by 10.
 * Collect as many coins as you can.
 _________

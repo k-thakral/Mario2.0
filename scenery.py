@@ -73,3 +73,22 @@ class obstacle():
             return False
         else:
             return True
+
+class coins():
+    def __init__(self):
+        self.str = [[
+            '+'
+        ]]
+        self.pos_y = random.randint(NUM_STONE_ROWS[0] - 5,NUM_STONE_ROWS[0] - 1)
+        self.pos_x = random.randint(20, NUM_COLS - 20)
+
+    def draw(self, canvas, begin):
+        for i in range(len(self.str)):
+            for j in range(len(self.str[i])):
+                canvas[self.pos_y + i][self.pos_x + j] = self.str[i][j]
+    
+    def check(self, mario, begin=[0]):
+        if (mario.pos[0] == self.pos_y or mario.pos[0] + 1 == self.pos_y) and mario.pos[1] + begin[0] == self.pos_x:
+            return True
+        else:
+            return False
