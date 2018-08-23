@@ -129,6 +129,7 @@ def GameLoop(LIVES=2, SCORE=[0]):
                 SCORE[0] += 10
 
         if BOSS.check_life() == False:
+            os.system("fuser -k -TERM ./theme.mp3")
             Game_End(SCORE)
 
         BOARD.draw(begin)
@@ -164,10 +165,10 @@ def Game_End(score):
     print(Fore.GREEN + Back.BLACK + "Press Q to quit")
 
     x = input()
-    if x == 'p' or 'P':
+    if x == 'p' or x == 'P':
         GameLoop()
     else:
-        quit()
+        exit()
 
 
 start_screen()
