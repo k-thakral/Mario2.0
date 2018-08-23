@@ -9,6 +9,7 @@ from getch import _getChUnix as getChar
 from globals import NUM_COLS, NUM_STONE_ROWS
 from base_chars import base
 
+
 class mario(base):
     '''Class For Mario'''
 
@@ -26,11 +27,21 @@ class mario(base):
     def draw(self, canvas, begin, base_level):
         for i in range(len(self._str)):
             for j in range(len(self._str[i])):
-                canvas[base_level + self.pos[0] + i][begin[0] +
-                                                     self.pos[1] + j] = self._str[i][j]
+                canvas[base_level + self.pos[0] + i][begin[0] + \
+                    self.pos[1] + j] = self._str[i][j]
 
-    def move_mario(self, board, canvas, begin, enemy_list, score,
-                   base_level, base_level_next, base_level_prev, BOSS, coin_list=[]):
+    def move_mario(
+            self,
+            board,
+            canvas,
+            begin,
+            enemy_list,
+            score,
+            base_level,
+            base_level_next,
+            base_level_prev,
+            BOSS,
+            coin_list=[]):
         """Moves Mario"""
         def alarmhandler(signum, frame):
             ''' input method '''
@@ -154,8 +165,8 @@ class mario(base):
                     os.system("tput reset")
                     begin[0] -= 1
                     self.pos[0] -= 1
-                    canvas[base_level + self.pos[0] + 1][base_level +
-                                                         begin[0] + self.pos[1] + 1] = ' '
+                    canvas[base_level + self.pos[0] + 1][base_level + \
+                        begin[0] + self.pos[1] + 1] = ' '
                     canvas[base_level + self.pos[0] +
                            2][begin[0] + self.pos[1] + 1] = ' '
                     canvas[base_level + self.pos[0]

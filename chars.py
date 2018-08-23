@@ -9,6 +9,7 @@ from getch import _getChUnix as getChar
 from globals import NUM_COLS, NUM_STONE_ROWS
 from base_chars import base
 
+
 class enemy(base):
     count = 0
 

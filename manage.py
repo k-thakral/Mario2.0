@@ -8,6 +8,7 @@ from scenery import cloud, obstacle, pit, coins
 
 init()
 
+
 def GameLoop(LIVES=2, SCORE=[0]):
     BOARD = board()
     MARIO = mario()
@@ -43,7 +44,7 @@ def GameLoop(LIVES=2, SCORE=[0]):
             if c.pos_x >= p[0] and c.pos_x <= p[1]:
                 flag = False
 
-        if flag == True:
+        if flag:
             coin_list.append(c)
 
     for i in range(len(pit_presence_list)):
@@ -133,8 +134,16 @@ def GameLoop(LIVES=2, SCORE=[0]):
             Game_End(SCORE)
 
         BOARD.draw(begin)
-        MARIO.move_mario(BOARD, BOARD.canvas, begin, enemy_list, SCORE,
-                         base_level[MARIO.pos[1] + begin[0]], base_level[MARIO.pos[1] + begin[0] + 1], base_level[MARIO.pos[1] + begin[0] - 1], BOSS, coin_list=coin_list)
+        MARIO.move_mario(BOARD,
+                         BOARD.canvas,
+                         begin,
+                         enemy_list,
+                         SCORE,
+                         base_level[MARIO.pos[1] + begin[0]],
+                         base_level[MARIO.pos[1] + begin[0] + 1],
+                         base_level[MARIO.pos[1] + begin[0] - 1],
+                         BOSS,
+                         coin_list=coin_list)
 
 
 def start_screen():
