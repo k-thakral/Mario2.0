@@ -258,7 +258,8 @@ class enemy(base):
                 self.direction = "right"
             if self.pos_x > self.pos_x_start:
                 self.pos_x -= 1
-    
+
+
 class boss():
     def __init__(self):
         self._life = 3
@@ -277,7 +278,7 @@ class boss():
         for i in range(len(self._str)):
             for j in range(len(self._str[i])):
                 canvas[self.pos_y + i][self.pos_x + j] = self._str[i][j]
-    
+
     def oscillate(self):
         if self.direction == "right":
             if self.pos_x_end == self.pos_x:
@@ -290,19 +291,19 @@ class boss():
                 self.direction = "right"
             if self.pos_x > self.pos_x_start:
                 self.pos_x -= 1
-    
+
     def check(self, mario, begin, score):
-        if mario.pos[1] + begin[0] in range(self.pos_x, self.pos_x + 5) and mario.pos[0] == self.pos_y - 2:
+        if mario.pos[1] + begin[0] in range(self.pos_x,
+                                            self.pos_x + 5) and mario.pos[0] == self.pos_y - 2:
             self._life -= 1
             self._str = [
                 [' ', ' ', str(self._life), str(self._life), ' ', ' '],
                 [' ', 'B', 'B', 'B', 'B', ' ']
             ]
             score[0] += 50
-    
+
     def check_life(self):
         if self._life <= 0:
             return False
         else:
             return True
-

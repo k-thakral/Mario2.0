@@ -5,6 +5,7 @@ from globals import NUM_COLS, NUM_STONE_ROWS
 
 class cloud():
     '''Cloud Class'''
+
     def __init__(self):
         self.str = [
             [' ', ' ', ' ', '_', '_', ' ', ' ', ' '],
@@ -26,6 +27,7 @@ class cloud():
 
 class pit():
     """Pit Obstacle Class"""
+
     def __init__(self):
         '''Pit Obstacle Constructor'''
         self.start = random.randint(20, NUM_COLS - 20)
@@ -48,6 +50,7 @@ class pit():
 
 class obstacle():
     """Pipe Obstacle Class"""
+
     def __init__(self):
         '''Pipe Obstacle Constructor'''
         self.str = [
@@ -81,14 +84,18 @@ class obstacle():
         else:
             return True
 
+
 class coins():
     '''Class For Coins'''
+
     def __init__(self):
         '''Coin Constructor : Assigns position'''
         self.str = [[
             '+'
         ]]
-        self.pos_y = random.randint(NUM_STONE_ROWS[0] - 5,NUM_STONE_ROWS[0] - 1)
+        self.pos_y = random.randint(
+            NUM_STONE_ROWS[0] - 5,
+            NUM_STONE_ROWS[0] - 1)
         self.pos_x = random.randint(20, NUM_COLS - 20)
 
     def draw(self, canvas, begin):
@@ -96,10 +103,11 @@ class coins():
         for i in range(len(self.str)):
             for j in range(len(self.str[i])):
                 canvas[self.pos_y + i][self.pos_x + j] = self.str[i][j]
-    
+
     def check(self, mario, begin=[0]):
         '''Check if Mario has reached the coin'''
-        if (mario.pos[0] == self.pos_y or mario.pos[0] + 1 == self.pos_y) and mario.pos[1] + begin[0] == self.pos_x:
+        if (mario.pos[0] == self.pos_y or mario.pos[0] + 1 ==
+                self.pos_y) and mario.pos[1] + begin[0] == self.pos_x:
             return True
         else:
             return False

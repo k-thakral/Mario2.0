@@ -7,7 +7,8 @@ from scenery import cloud, obstacle, pit, coins
 
 init()
 
-def GameLoop(LIVES = 2, SCORE = [0]):
+
+def GameLoop(LIVES=2, SCORE=[0]):
     BOARD = board()
     MARIO = mario()
     begin = [0]
@@ -37,14 +38,13 @@ def GameLoop(LIVES = 2, SCORE = [0]):
 
     while len(coin_list) != 50:
         c = coins()
-        flag = True 
+        flag = True
         for p in pit_presence_list:
             if c.pos_x >= p[0] and c.pos_x <= p[1]:
                 flag = False
-        
+
         if flag == True:
             coin_list.append(c)
-                
 
     for i in range(len(pit_presence_list)):
         p = pit()
@@ -56,7 +56,6 @@ def GameLoop(LIVES = 2, SCORE = [0]):
 
     obstacle_presence_list = [
         (47, 53), (83, 89), (112, 118), (131, 137), (183, 189), (215, 221)]
-
 
     for i in range(len(enemy_path_list)):
         e = enemy()
@@ -93,7 +92,7 @@ def GameLoop(LIVES = 2, SCORE = [0]):
 
         for p in pit_list:
             p.draw(BOARD.canvas)
-        
+
         for c in coin_list:
             if c.check(MARIO, begin=begin):
                 coin_list.remove(c)
@@ -114,7 +113,8 @@ def GameLoop(LIVES = 2, SCORE = [0]):
         for e in enemy_list:
             e.draw(begin, BOARD.canvas)
             e.oscillate()
-            if e.pos_x == begin[0] + MARIO.pos[1] and MARIO.legs_pos == e.pos_y:
+            if e.pos_x == begin[0] + \
+                    MARIO.pos[1] and MARIO.legs_pos == e.pos_y:
                 os.system("fuser -k -TERM ./theme.mp3")
                 LIVES -= 1
                 SCORE[0] += 10
@@ -123,21 +123,27 @@ def GameLoop(LIVES = 2, SCORE = [0]):
                     start_screen()
                 else:
                     break
-                #quit()
+                # quit()
             elif e.pos_x == begin[0] + MARIO.pos[1] and MARIO.legs_pos + 1 == e.pos_y:
                 enemy_list.remove(e)
                 SCORE[0] += 10
-        
+
         if BOSS.check_life() == False:
             Game_End(SCORE)
 
         BOARD.draw(begin)
         MARIO.move_mario(BOARD, BOARD.canvas, begin, enemy_list, SCORE,
-                         base_level[MARIO.pos[1] + begin[0]], base_level[MARIO.pos[1] + begin[0] + 1], base_level[MARIO.pos[1] + begin[0] - 1], BOSS,coin_list=coin_list)
+                         base_level[MARIO.pos[1] + begin[0]], base_level[MARIO.pos[1] + begin[0] + 1], base_level[MARIO.pos[1] + begin[0] - 1], BOSS, coin_list=coin_list)
+
 
 def start_screen():
     os.system('tput reset')
-    print("\t\t\t\t\t\t\t\t" + Fore.RED + Back.BLUE + "Hello, Welcome To Mario2.0 !" + Back.BLACK)
+    print(
+        "\t\t\t\t\t\t\t\t" +
+        Fore.RED +
+        Back.BLUE +
+        "Hello, Welcome To Mario2.0 !" +
+        Back.BLACK)
     print(Fore.GREEN + Back.BLACK + "Press P to play")
     print(Fore.GREEN + Back.BLACK + "Press Q to quit")
     x = input()
@@ -147,6 +153,7 @@ def start_screen():
     else:
         quit()
 
+
 def Game_End(score):
     os.system('tput reset')
     print("\t\t\t\t\t\t\t\t" + Fore.RED + Back.BLUE +
@@ -155,11 +162,12 @@ def Game_End(score):
           "Your Final Score is " + str(score[0]) + Back.BLACK)
     print(Fore.GREEN + Back.BLACK + "Press P to play")
     print(Fore.GREEN + Back.BLACK + "Press Q to quit")
-    
+
     x = input()
     if x == 'p' or 'P':
         GameLoop()
     else:
         quit()
+
 
 start_screen()
