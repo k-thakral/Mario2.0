@@ -63,7 +63,7 @@ class mario(base):
         c = user_input()
 
         if c == 'q':
-            os.system("fuser -k -TERM ./theme.mp3")
+            os.system("fuser -k -TERM ./theme.wav")
             quit()
 
         if c == 'd':
