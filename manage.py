@@ -9,7 +9,7 @@ from scenery import cloud, obstacle, pit, coins
 init()
 
 
-def GameLoop(LIVES=2, SCORE=[0]):
+def GameLoop(LIVES=3, SCORE=[0]):
     BOARD = board()
     MARIO = mario()
     begin = [0]
