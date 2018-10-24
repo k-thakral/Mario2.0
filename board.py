@@ -1,11 +1,13 @@
-from globals import *
+'''Board Class File which handles the canvas'''
+from globals import NUM_COLS, NUM_ROWS, NUM_STONE_ROWS
 
 
-class board():
+class Board():
     '''This class is to create the canvas'''
     canvas = [[] for i in range(NUM_ROWS)]
 
     def __init__(self):
+        '''Draw the initial Board'''
         for i in range(0, NUM_ROWS):
             for j in range(NUM_COLS):
                 self.canvas[i].append(' ')
@@ -23,6 +25,7 @@ class board():
                 self.canvas[i][j + 3] = '|'
 
     def draw(self, begin):
+        '''Draw the Board'''
         for i in self.canvas:
             temp = ''
             for j in i[begin[0]:begin[0] + 80]:

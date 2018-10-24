@@ -1,9 +1,10 @@
+'''Scenery for the Game'''
 import random
 
 from globals import NUM_COLS, NUM_STONE_ROWS
 
 
-class cloud():
+class Cloud():
     '''Cloud Class'''
 
     def __init__(self):
@@ -17,6 +18,7 @@ class cloud():
         self.pos_y = random.randint(0, NUM_COLS - 20)
 
     def draw(self, canvas, begin):
+        '''Draw cloud on the canvas'''
         for i in range(len(self.str)):
             for j in range(len(self.str[i])):
                 canvas[self.pos_x + i][self.pos_y + j] = self.str[i][j]
@@ -25,7 +27,7 @@ class cloud():
         return str(self.pos_x) + ',' + str(self.pos_y)
 
 
-class pit():
+class Pit():
     """Pit Obstacle Class"""
 
     def __init__(self):
@@ -44,11 +46,10 @@ class pit():
         if mario.pos[1] + begin[0] > self.start and mario.pos[1] + \
                 begin[0] < self.end:
             return False
-        else:
-            return True
+        return True
 
 
-class obstacle():
+class Obstacle():
     """Pipe Obstacle Class"""
 
     def __init__(self):
@@ -64,6 +65,8 @@ class obstacle():
             self.str.append(
                 [' ', '|', ' ', ' ', '|', ' ']
             )
+            i += 1
+            i -= 1
 
         self.pos_y = random.randint(20, NUM_COLS - 20)
 
@@ -81,11 +84,10 @@ class obstacle():
         if mario.pos[0] + 1 < self.pos_x and begin[0] + \
                 mario.pos[1] > self.pos_y and begin[0] + mario.pos[1] < self.pos_y + 6:
             return False
-        else:
-            return True
+        return True
 
 
-class coins():
+class Coins():
     '''Class For Coins'''
 
     def __init__(self):
@@ -109,5 +111,4 @@ class coins():
         if (mario.pos[0] == self.pos_y or mario.pos[0] + 1 ==
                 self.pos_y) and mario.pos[1] + begin[0] == self.pos_x:
             return True
-        else:
-            return False
+        return False

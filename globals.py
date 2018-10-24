@@ -1,3 +1,4 @@
+'''Module Contains global Constants'''
 NUM_ROWS = 45
 NUM_COLS = 320
 

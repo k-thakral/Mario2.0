@@ -6,8 +6,6 @@ class _getChUnix:
 
     def __init__(self):
         '''init def to take input'''
-        import tty
-        import sys
 
     def __call__(self):
         '''def to call function'''
