@@ -136,16 +136,19 @@ def game_loop(lives=3, score=[0]):
             game_end(score)
 
         board.draw(begin)
-        mario.move_mario(board,
-                         board.canvas,
-                         begin,
-                         enemy_list,
-                         score,
-                         base_level[mario.pos[1] + begin[0]],
-                         base_level[mario.pos[1] + begin[0] + 1],
-                         base_level[mario.pos[1] + begin[0] - 1],
-                         boss,
-                         coin_list=coin_list)
+        mario.move_mario(
+            args = {
+                "board" : board,
+                "canvas" : board.canvas,
+                "begin" : begin,
+                "enemy_list" : enemy_list,
+                "score" : score,
+                "base_level" : base_level[mario.pos[1] + begin[0]],
+                "base_level_next" : base_level[mario.pos[1] + begin[0] + 1],
+                "base_level_prev" : base_level[mario.pos[1] + begin[0] - 1],
+                "boss" : boss,
+                "coin_list" : coin_list
+            })
 
 
 def start_screen():

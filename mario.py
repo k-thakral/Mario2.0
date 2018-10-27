@@ -28,18 +28,24 @@ class Mario():
                 canvas[base_level + self.pos[0] + i][begin[0] + \
                     self.pos[1] + j] = self._str[i][j]
 
-    def move_mario(
-            self,
-            board,
-            canvas,
-            begin,
-            enemy_list,
-            score,
-            base_level,
-            base_level_next,
-            base_level_prev,
-            boss,
-            coin_list):
+    def checks(self, canvas, boss, begin, score):
+        boss.check(mario=self, begin=begin, score=score)
+        boss.oscillate()
+        boss.draw(canvas)
+
+    def move_mario(self, args):
+
+        board = args["board"]
+        canvas = args["canvas"]
+        begin = args["begin"]
+        enemy_list = args["enemy_list"]
+        score = args["score"]
+        base_level = args["base_level"]
+        base_level_next = args["base_level_next"]
+        base_level_prev = args["base_level_prev"]
+        boss = args["boss"]
+        coin_list = args["coin_list"]
+
         """Moves Mario"""
         def alarmhandler(signum, frame):
             ''' input method '''
@@ -88,9 +94,7 @@ class Mario():
             for e in enemy_list:
                 e.oscillate()
                 e.draw(canvas)
-            boss.check(mario=self, begin=begin, score=score)
-            boss.oscillate()
-            boss.draw(canvas)
+            self.checks(canvas=canvas, boss=boss, begin=begin, score=score)
             board.draw(begin)
 
         if char == 'w':
@@ -114,9 +118,7 @@ class Mario():
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
-                    boss.check(mario=self, begin=begin, score=score)
-                    boss.oscillate()
-                    boss.draw(canvas)
+                    self.checks(canvas=canvas, boss=boss, begin=begin, score=score)
                     board.draw(begin)
                     char = user_input()
 
@@ -140,9 +142,7 @@ class Mario():
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
-                    boss.check(mario=self, begin=begin, score=score)
-                    boss.oscillate()
-                    boss.draw(canvas)
+                    self.checks(canvas=canvas, boss=boss, begin=begin, score=score)
                     board.draw(begin)
                     char = user_input()
 
@@ -169,9 +169,7 @@ class Mario():
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
-                    boss.check(mario=self, begin=begin, score=score)
-                    boss.oscillate()
-                    boss.draw(canvas)
+                    self.checks(canvas=canvas, boss=boss, begin=begin, score=score)
                     board.draw(begin)
                     char = user_input()
 
@@ -196,8 +194,6 @@ class Mario():
                         if c.check(mario=self, begin=begin):
                             coin_list.remove(c)
                             score[0] += 1
-                    boss.check(mario=self, begin=begin, score=score)
-                    boss.oscillate()
-                    boss.draw(canvas)
+                    self.checks(canvas=canvas, boss=boss, begin=begin, score=score)
                     board.draw(begin)
                     char = user_input()
