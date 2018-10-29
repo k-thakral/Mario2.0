@@ -60,7 +60,7 @@ class Mario():
         if base_level_next >= base_level:
             begin[0] += 1
             canvas[base_level + self.pos[0]
-                   ][begin[0] + self.pos[1] - 1] = ' '
+                  ][begin[0] + self.pos[1] - 1] = ' '
             canvas[base_level + self.pos[0] +
                    1][begin[0] + self.pos[1] - 1] = ' '
             self.direction = "right"
@@ -77,6 +77,136 @@ class Mario():
             for j in range(len(self._str[i])):
                 canvas[base_level + self.pos[0] + i][begin[0] +
                                                      self.pos[1] + j] = self._str[i][j]
+
+    def jump_right(self, canvas, begin, base_level, enemy_list, coin_list, score, boss, board, use):
+        '''Make mario jump to the right'''
+        os.system("aplay ./jump.wav &")
+        for i in range(5 - base_level):
+            i += 1
+            i -= 1
+            os.system("tput reset")
+            begin[0] += 1
+            self.pos[0] -= 1
+            canvas[base_level + self.pos[0] +
+                   1][begin[0] + self.pos[1] - 1] = ' '
+            canvas[base_level + self.pos[0] +
+                   2][begin[0] + self.pos[1] - 1] = ' '
+            canvas[base_level + self.pos[0]
+                  ][begin[0] + self.pos[1]] = "*"
+            canvas[base_level + self.pos[0] +
+                   1][begin[0] + self.pos[1]] = "|"
+            for enemy in enemy_list:
+                enemy.oscillate()
+                enemy.draw(canvas)
+            for coi in coin_list:
+                if coi.check(mario=self, begin=begin):
+                    coin_list.remove(coi)
+                    score[0] += 1
+            self.checks(
+                canvas=canvas,
+                boss=boss,
+                begin=begin,
+                score=score)
+            board.draw(begin)
+            char = use()
+        for i in range(5 - base_level):
+            os.system("tput reset")
+            begin[0] += 1
+            self.pos[0] += 1
+            canvas[base_level + self.pos[0] -
+                   1][begin[0] + self.pos[1] - 1] = ' '
+            canvas[base_level + self.pos[0]
+                  ][begin[0] + self.pos[1] - 1] = ' '
+            canvas[base_level + self.pos[0]
+                  ][begin[0] + self.pos[1]] = "*"
+            canvas[base_level + self.pos[0] +
+                   1][begin[0] + self.pos[1]] = "|"
+            for enemy in enemy_list:
+                if self.legs_pos == enemy.pos_y and self.pos[1] + \
+                        begin[0] == enemy.pos_x:
+                    enemy_list.remove(enemy)
+                    score[0] += 10
+                else:
+                    enemy.draw(canvas)
+                    enemy.oscillate()
+            for coi in coin_list:
+                if coi.check(mario=self, begin=begin):
+                    coin_list.remove(coi)
+                    score[0] += 1
+            self.checks(
+                canvas=canvas,
+                boss=boss,
+                begin=begin,
+                score=score)
+            board.draw(begin)
+            char = use()
+
+    def jump_left(self, canvas, begin, base_level, enemy_list, coin_list, score, boss, board, user_input):
+        '''Make mario jump to the left'''
+        os.system("aplay ./jump.wav &")
+        for i in range(5 - base_level):
+            os.system("tput reset")
+            begin[0] -= 1
+            self.pos[0] -= 1
+            canvas[base_level + self.pos[0] + 1][base_level +
+                                                 begin[0] + self.pos[1] + 1] = ' '
+            canvas[base_level + self.pos[0] +
+                   2][begin[0] + self.pos[1] + 1] = ' '
+            canvas[base_level + self.pos[0]
+                  ][begin[0] + self.pos[1]] = "*"
+            canvas[base_level + self.pos[0] +
+                   1][begin[0] + self.pos[1]] = "|"
+            for enemy in enemy_list:
+                if self.legs_pos == enemy.pos_y and self.pos[1] + \
+                        begin[0] == enemy.pos_x:
+                    enemy_list.remove(enemy)
+                    score[0] += 10
+                else:
+                    enemy.draw(canvas)
+                    enemy.oscillate()
+            for coi in coin_list:
+                if coi.check(mario=self, begin=begin):
+                    coin_list.remove(coi)
+                    score[0] += 1
+            self.checks(
+                canvas=canvas,
+                boss=boss,
+                begin=begin,
+                score=score)
+            board.draw(begin)
+            char = user_input()
+
+        for i in range(5 - base_level):
+            os.system("tput reset")
+            begin[0] -= 1
+            self.pos[0] += 1
+            canvas[base_level + self.pos[0] -
+                   1][begin[0] + self.pos[1] + 1] = ' '
+            canvas[base_level + self.pos[0]
+                  ][begin[0] + self.pos[1] + 1] = ' '
+            canvas[base_level + self.pos[0]
+                  ][begin[0] + self.pos[1]] = "*"
+            canvas[base_level + self.pos[0] +
+                   1][begin[0] + self.pos[1]] = "|"
+            for enemy in enemy_list:
+                if self.legs_pos == enemy.pos_y and self.pos[1] + \
+                        begin[0] == enemy.pos_x:
+                    enemy_list.remove(enemy)
+                    score[0] += 10
+                else:
+                    enemy.draw(canvas)
+                    enemy.oscillate()
+            for coi in coin_list:
+                if coi.check(mario=self, begin=begin):
+                    coin_list.remove(coi)
+                    score[0] += 1
+            self.checks(
+                canvas=canvas,
+                boss=boss,
+                begin=begin,
+                score=score)
+            board.draw(begin)
+            char = user_input()
 
     def checks(self, canvas, boss, begin, score):
         '''Check Mario and Boss interaction'''
@@ -137,132 +267,9 @@ class Mario():
 
         if char == 'w':
             if self.direction == "right":
-                os.system("aplay ./jump.wav &")
-                for i in range(5 - base_level):
-                    i += 1
-                    i -= 1
-                    os.system("tput reset")
-                    begin[0] += 1
-                    self.pos[0] -= 1
-                    canvas[base_level + self.pos[0] +
-                           1][begin[0] + self.pos[1] - 1] = ' '
-                    canvas[base_level + self.pos[0] +
-                           2][begin[0] + self.pos[1] - 1] = ' '
-                    canvas[base_level + self.pos[0]
-                           ][begin[0] + self.pos[1]] = "*"
-                    canvas[base_level + self.pos[0] +
-                           1][begin[0] + self.pos[1]] = "|"
-
-                    for enemy in enemy_list:
-                        enemy.oscillate()
-                        enemy.draw(canvas)
-                    for coi in coin_list:
-                        if coi.check(mario=self, begin=begin):
-                            coin_list.remove(coi)
-                            score[0] += 1
-                    self.checks(
-                        canvas=canvas,
-                        boss=boss,
-                        begin=begin,
-                        score=score)
-                    board.draw(begin)
-                    char = user_input()
-
-                for i in range(5 - base_level):
-                    os.system("tput reset")
-                    begin[0] += 1
-                    self.pos[0] += 1
-                    canvas[base_level + self.pos[0] -
-                           1][begin[0] + self.pos[1] - 1] = ' '
-                    canvas[base_level + self.pos[0]
-                           ][begin[0] + self.pos[1] - 1] = ' '
-                    canvas[base_level + self.pos[0]
-                           ][begin[0] + self.pos[1]] = "*"
-                    canvas[base_level + self.pos[0] +
-                           1][begin[0] + self.pos[1]] = "|"
-                    for enemy in enemy_list:
-                        if self.legs_pos == enemy.pos_y and self.pos[1] + \
-                                begin[0] == enemy.pos_x:
-                            enemy_list.remove(enemy)
-                            score[0] += 10
-                        else:
-                            enemy.draw(canvas)
-                            enemy.oscillate()
-                    for coi in coin_list:
-                        if coi.check(mario=self, begin=begin):
-                            coin_list.remove(coi)
-                            score[0] += 1
-                    self.checks(
-                        canvas=canvas,
-                        boss=boss,
-                        begin=begin,
-                        score=score)
-                    board.draw(begin)
-                    char = user_input()
+                self.jump_right(canvas, begin, base_level, enemy_list,
+                                coin_list, score, boss, board, user_input)
 
             if self.direction == "left":
-                os.system("aplay ./jump.wav &")
-                for i in range(5 - base_level):
-
-                    os.system("tput reset")
-                    begin[0] -= 1
-                    self.pos[0] -= 1
-                    canvas[base_level + self.pos[0] + 1][base_level + \
-                        begin[0] + self.pos[1] + 1] = ' '
-                    canvas[base_level + self.pos[0] +
-                           2][begin[0] + self.pos[1] + 1] = ' '
-                    canvas[base_level + self.pos[0]
-                           ][begin[0] + self.pos[1]] = "*"
-                    canvas[base_level + self.pos[0] +
-                           1][begin[0] + self.pos[1]] = "|"
-                    for enemy in enemy_list:
-                        if self.legs_pos == enemy.pos_y and self.pos[1] + \
-                                begin[0] == enemy.pos_x:
-                            enemy_list.remove(enemy)
-                            score[0] += 10
-                        else:
-                            enemy.draw(canvas)
-                            enemy.oscillate()
-                    for coi in coin_list:
-                        if coi.check(mario=self, begin=begin):
-                            coin_list.remove(coi)
-                            score[0] += 1
-                    self.checks(
-                        canvas=canvas,
-                        boss=boss,
-                        begin=begin,
-                        score=score)
-                    board.draw(begin)
-                    char = user_input()
-
-                for i in range(5 - base_level):
-                    os.system("tput reset")
-                    begin[0] -= 1
-                    self.pos[0] += 1
-                    canvas[base_level + self.pos[0] -
-                           1][begin[0] + self.pos[1] + 1] = ' '
-                    canvas[base_level + self.pos[0]
-                           ][begin[0] + self.pos[1] + 1] = ' '
-                    canvas[base_level + self.pos[0]
-                           ][begin[0] + self.pos[1]] = "*"
-                    canvas[base_level + self.pos[0] +
-                           1][begin[0] + self.pos[1]] = "|"
-                    for enemy in enemy_list:
-                        if self.legs_pos == enemy.pos_y and self.pos[1] + \
-                                begin[0] == enemy.pos_x:
-                            enemy_list.remove(enemy)
-                            score[0] += 10
-                        else:
-                            enemy.draw(canvas)
-                            enemy.oscillate()
-                    for coi in coin_list:
-                        if coi.check(mario=self, begin=begin):
-                            coin_list.remove(coi)
-                            score[0] += 1
-                    self.checks(
-                        canvas=canvas,
-                        boss=boss,
-                        begin=begin,
-                        score=score)
-                    board.draw(begin)
-                    char = user_input()
+                self.jump_left(canvas, begin, base_level, enemy_list,
+                               coin_list, score, boss, board, user_input)
