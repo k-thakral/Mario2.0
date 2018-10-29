@@ -137,7 +137,7 @@ def game_loop(lives=3, score=[0]):
 
         board.draw(begin)
         mario.move_mario(
-            args = {
+            args={
                 "board" : board,
                 "canvas" : board.canvas,
                 "begin" : begin,
